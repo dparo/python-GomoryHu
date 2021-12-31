@@ -1,5 +1,4 @@
-from gomory_hu import GomoryHuTree
-
+from gomory_hu import GomoryHuTreeSolver
 
 graph = [[0, 1, 7, 0, 0, 0],
          [1, 0, 1, 3, 2, 0],
@@ -9,14 +8,29 @@ graph = [[0, 1, 7, 0, 0, 0],
          [0, 0, 0, 6, 2, 0]]
 
 # Construct GomoryHuTree
-tree = GomoryHuTree(graph)
+solver = GomoryHuTreeSolver(graph)
+solver.build()
 
 # Print Tree Contents
-print(tree)
+print("COLOR:", solver.color)
+print("PRED:", solver.pred)
+print()
+print()
+print("GRAPH: ", graph)
+print("TREE:", solver.tree)
+print("CAPACITIES:", solver.capacity)
 
-# Query for min cut between 0 and 4
-print(tree.query(2, 0))
-print(tree.query(0, 2))
 
-# Print the edge (0, 3)
-print(tree[0, 3])
+print()
+print()
+
+solver.prepare()
+print("Prepared for query!")
+print("CAPACITIES:", solver.capacity)
+print("Query(2, 0): ", solver.query(2, 0))
+print("Query(0, 2): ", solver.query(0, 2))
+
+assert solver.query(2, 0) == 8
+assert solver.query(0, 2) == 8
+assert solver.query(1, 4) == 7
+assert solver.query(4, 1) == 7

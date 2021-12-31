@@ -11,8 +11,7 @@ GRAY = 1
 WHITE = 0
 
 
-class GomoryHuTree:
-
+class GomoryHuTreeSolver:
     def __init__(self, graph):
         self.V = len(graph)
         self.capacity = {}
@@ -23,10 +22,6 @@ class GomoryHuTree:
         self.pred = {}
         self.tree = {}
         self.flow = {}
-        self.depth = {}
-
-        self.build()
-        self.prepare()
 
     def __repr__(self):
         return self.tree
@@ -40,14 +35,12 @@ class GomoryHuTree:
 
     def bfs(self, start, target):
         """Breadth-First Search between start and target"""
-        
+
         for u in range(self.V):
             self.color[u] = WHITE
-            self.depth[u] = -1
 
         q = deque()
         q.append(start)
-        self.depth[start] = 0
 
         self.pred[start] = -1
 
@@ -56,12 +49,10 @@ class GomoryHuTree:
             self.color[u] = BLACK
 
             for v in range(self.V):
-                if self.color[v] == WHITE and self.capacity[u,
-                                                            v] - self.flow[u, v] > 0:
+                if self.color[v] == WHITE and self.capacity[u, v] - self.flow[u, v] > 0:
                     self.color[v] = GRAY
                     q.append(v)
                     self.pred[v] = u
-                    self.depth[v] = self.depth[u] + 1
 
         return self.color[target] == BLACK
 
@@ -81,7 +72,9 @@ class GomoryHuTree:
 
             while self.pred[u] != -1:
                 increment = min(
-                    increment, self.capacity[self.pred[u], u] - self.flow[self.pred[u], u])
+                    increment,
+                    self.capacity[self.pred[u], u] - self.flow[self.pred[u], u],
+                )
                 u = self.pred[u]
 
             u = sink
