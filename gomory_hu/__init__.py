@@ -24,7 +24,7 @@ class GomoryHuTreeSolver:
         self.flow = {}
 
     def __repr__(self):
-        return self.tree
+        return self.tree.__repr__()
 
     def __str__(self):
         return str(self.tree)
@@ -105,6 +105,15 @@ class GomoryHuTreeSolver:
 
             min_cut = self.max_flow(s, t)
 
+            # NOTE:
+            #       As a side effect from running the ford_fulkerson and bfs,
+            #       ctx->ff.colors will mark
+            #       the bipartition induced from the minimum cut
+            assert self.color[s] == BLACK
+            assert self.color[t] == WHITE
+            for i in range(self.V):
+                assert self.color[i] == BLACK or self.color[i] == WHITE
+
             f1[s] = min_cut
 
             for i in range(self.V):
@@ -117,9 +126,8 @@ class GomoryHuTreeSolver:
                 f1[s] = f1[t]
                 f1[t] = min_cut
 
-            if s == self.V - 1:
-                for i in range(1, s + 1):
-                    self.tree[i, p[i]] = f1[i]
+            for i in range(1, self.V - 1):
+                self.tree[i, p[i]] = f1[i]
 
     def prepare(self):
         """Prepare for querying"""
