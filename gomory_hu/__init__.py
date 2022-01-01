@@ -100,8 +100,8 @@ class GomoryHuTreeSolver:
                 self.tree[i, j] = 0
 
         for s in range(1, self.V):
-
             t = p[s]
+            print(f"Doing max_flow({s}, {t})")
 
             min_cut = self.max_flow(s, t)
 
@@ -126,8 +126,8 @@ class GomoryHuTreeSolver:
                 f1[s] = f1[t]
                 f1[t] = min_cut
 
-            for i in range(1, self.V - 1):
-                self.tree[i, p[i]] = f1[i]
+        for i in range(1, self.V - 1):
+            self.tree[i, p[i]] = f1[i]
 
     def prepare(self):
         """Prepare for querying"""
@@ -137,4 +137,8 @@ class GomoryHuTreeSolver:
 
     def query(self, u, v):
         """Query GomoryHuTree"""
-        return max(self.max_flow(u, v), self.max_flow(v, u))
+        f1 = self.max_flow(u, v)
+        f2 = self.max_flow(v, u)
+        print(f"Query - Flow({u}, {v}) = {f1}")
+        print(f"Query - Flow({v}, {u}) = {f2}")
+        return max(f1, f2)

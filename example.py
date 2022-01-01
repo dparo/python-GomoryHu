@@ -12,11 +12,6 @@ solver = GomoryHuTreeSolver(graph)
 solver.build()
 
 # Print Tree Contents
-print("COLOR:", solver.color)
-print("PRED:", solver.pred)
-print()
-print()
-print("GRAPH: ", graph)
 print("TREE:", solver.tree)
 print("CAPACITIES:", solver.capacity)
 
@@ -29,6 +24,9 @@ print("Prepared for query!")
 print("CAPACITIES:", solver.capacity)
 print("Query(2, 0): ", solver.query(2, 0))
 print("Query(0, 2): ", solver.query(0, 2))
+print("Query(1, 4): ", solver.query(1, 4))
+print("Query(4, 1): ", solver.query(4, 1))
+
 
 assert solver.query(2, 0) == 8
 assert solver.query(0, 2) == 8
