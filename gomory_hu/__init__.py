@@ -112,7 +112,7 @@ class GomoryHuTreeSolver:
             assert self.color[s] == BLACK
             assert self.color[t] == WHITE
             for i in range(self.V):
-                assert self.color[i] == BLACK or self.color[i] == WHITE
+                assert self.color[i] in [BLACK, WHITE]
 
             f1[s] = min_cut
 
